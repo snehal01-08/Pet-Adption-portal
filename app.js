@@ -722,15 +722,21 @@ function updateDetailFavButton() {
    ========================================================================== */
 function openAdoptionWizard(petId) {
     const pet = PETS_DATA.find(p => p.id === petId);
-    state.wizardPetId = petId;
+    state.wizardPetId = petId || (PETS_DATA[0] ? PETS_DATA[0].id : null);
     state.wizardStep = 1;
 
     const modal = document.getElementById("adoptionWizardModal");
     const wizardPetName = document.getElementById("wizardPetName");
-    if (wizardPetName) wizardPetName.textContent = pet ? pet.name : "Pet";
+    const activePet = PETS_DATA.find(p => p.id === state.wizardPetId);
+    if (wizardPetName) wizardPetName.textContent = activePet ? activePet.name : "Pet";
 
+    clearInputErrors();
     updateWizardStepUI();
     modal?.classList.remove("hidden");
+}
+
+function clearInputErrors() {
+    document.querySelectorAll(".input-error").forEach(el => el.classList.remove("input-error"));
 }
 
 function setupAdoptionWizardLogic() {
@@ -741,7 +747,17 @@ function setupAdoptionWizardLogic() {
     const wizardSubmitBtn = document.getElementById("wizardSubmitBtn");
     const adoptionForm = document.getElementById("adoptionForm");
 
+    // Success Modal elements
+    const applicationSuccessModal = document.getElementById("applicationSuccessModal");
+    const closeSuccessModal = document.getElementById("closeSuccessModal");
+    const finishSuccessBtn = document.getElementById("finishSuccessBtn");
+
     if (closeWizardModal) closeWizardModal.addEventListener("click", () => wizardModal?.classList.add("hidden"));
+    if (closeSuccessModal) closeSuccessModal.addEventListener("click", () => applicationSuccessModal?.classList.add("hidden"));
+    if (finishSuccessBtn) finishSuccessBtn.addEventListener("click", () => {
+        applicationSuccessModal?.classList.add("hidden");
+        document.getElementById("explore")?.scrollIntoView({ behavior: "smooth" });
+    });
 
     if (wizardNextBtn) {
         wizardNextBtn.addEventListener("click", () => {
@@ -761,40 +777,101 @@ function setupAdoptionWizardLogic() {
         });
     }
 
+    const processFormSubmission = () => {
+        // Validate all 3 steps before submitting
+        if (!validateWizardStep(1)) {
+            state.wizardStep = 1;
+            updateWizardStepUI();
+            return;
+        }
+        if (!validateWizardStep(2)) {
+            state.wizardStep = 2;
+            updateWizardStepUI();
+            return;
+        }
+        if (!validateWizardStep(3)) {
+            state.wizardStep = 3;
+            updateWizardStepUI();
+            return;
+        }
+
+        const pet = PETS_DATA.find(p => p.id === state.wizardPetId);
+        wizardModal?.classList.add("hidden");
+
+        // Generate application reference code
+        const refCode = `#PAW-${Math.floor(10000 + Math.random() * 90000)}`;
+        const successRefCode = document.getElementById("successRefCode");
+        const successPetName = document.getElementById("successPetName");
+
+        if (successRefCode) successRefCode.textContent = refCode;
+        if (successPetName) successPetName.textContent = pet ? pet.name : "your chosen pet";
+
+        applicationSuccessModal?.classList.remove("hidden");
+        showToast(` 🎉 Application Submitted Successfully! Ref: ${refCode}`, "success");
+        if (adoptionForm) adoptionForm.reset();
+    };
+
     if (adoptionForm) {
         adoptionForm.addEventListener("submit", (e) => {
             e.preventDefault();
-            const terms = document.getElementById("termsAgree");
-            if (!terms?.checked) {
-                showToast("Please agree to the shelter verification terms.", "warning");
-                return;
-            }
-
-            const pet = PETS_DATA.find(p => p.id === state.wizardPetId);
-            wizardModal?.classList.add("hidden");
-
-            showToast(` 🎉 Application Submitted for ${pet ? pet.name : 'pet'}! Our team will contact you within 24 hours.`, "success");
-            adoptionForm.reset();
+            processFormSubmission();
         });
     }
+
+    if (wizardSubmitBtn) {
+        wizardSubmitBtn.addEventListener("click", (e) => {
+            e.preventDefault();
+            processFormSubmission();
+        });
+    }
+
+    // Input listeners to clear errors on typing
+    const allFormInputs = adoptionForm?.querySelectorAll("input, select, textarea");
+    allFormInputs?.forEach(input => {
+        input.addEventListener("input", () => input.classList.remove("input-error"));
+        input.addEventListener("change", () => input.classList.remove("input-error"));
+    });
 }
 
 function validateWizardStep(step) {
+    clearInputErrors();
+
     if (step === 1) {
-        const name = document.getElementById("applicantName")?.value.trim();
-        const email = document.getElementById("applicantEmail")?.value.trim();
-        const phone = document.getElementById("applicantPhone")?.value.trim();
-        if (!name || !email || !phone) {
-            showToast("Please fill in all contact information fields.", "warning");
+        const nameEl = document.getElementById("applicantName");
+        const emailEl = document.getElementById("applicantEmail");
+        const phoneEl = document.getElementById("applicantPhone");
+
+        const name = nameEl?.value.trim();
+        const email = emailEl?.value.trim();
+        const phone = phoneEl?.value.trim();
+
+        let valid = true;
+        if (!name) { nameEl?.classList.add("input-error"); valid = false; }
+        if (!email || !email.includes("@")) { emailEl?.classList.add("input-error"); valid = false; }
+        if (!phone) { phoneEl?.classList.add("input-error"); valid = false; }
+
+        if (!valid) {
+            showToast("Please fill in valid contact information highlighted in red.", "warning");
             return false;
         }
     } else if (step === 2) {
-        const exp = document.getElementById("petExperience")?.value.trim();
+        const expEl = document.getElementById("petExperience");
+        const exp = expEl?.value.trim();
+
         if (!exp) {
-            showToast("Please provide a brief description of your pet experience.", "warning");
+            expEl?.classList.add("input-error");
+            showToast("Please describe your pet experience briefly.", "warning");
+            return false;
+        }
+    } else if (step === 3) {
+        const termsEl = document.getElementById("termsAgree");
+        if (!termsEl?.checked) {
+            termsEl?.parentElement?.classList.add("input-error");
+            showToast("Please accept the terms checkbox to submit your application.", "warning");
             return false;
         }
     }
+
     return true;
 }
 
@@ -831,16 +908,16 @@ function updateWizardStepUI() {
 function fillApplicationSummary() {
     const summaryBox = document.getElementById("appSummaryBox");
     const pet = PETS_DATA.find(p => p.id === state.wizardPetId);
-    const name = document.getElementById("applicantName")?.value;
-    const email = document.getElementById("applicantEmail")?.value;
-    const housing = document.getElementById("housingType")?.value;
+    const name = document.getElementById("applicantName")?.value || "Not provided";
+    const email = document.getElementById("applicantEmail")?.value || "Not provided";
+    const housing = document.getElementById("housingType")?.value || "Standard";
 
     if (summaryBox) {
         summaryBox.innerHTML = `
-            <p><strong>Applying For:</strong> ${pet ? pet.name : 'Selected Pet'} (${pet ? pet.breed : ''})</p>
-            <p><strong>Applicant Name:</strong> ${name}</p>
-            <p><strong>Email:</strong> ${email}</p>
-            <p><strong>Living Space:</strong> ${housing}</p>
+            <p><i class="fa-solid fa-paw"></i> <strong>Applying For:</strong> ${pet ? pet.name : 'Selected Pet'} (${pet ? pet.breed : ''})</p>
+            <p><i class="fa-solid fa-user"></i> <strong>Applicant Name:</strong> ${name}</p>
+            <p><i class="fa-solid fa-envelope"></i> <strong>Email:</strong> ${email}</p>
+            <p><i class="fa-solid fa-house"></i> <strong>Living Space:</strong> ${housing}</p>
         `;
     }
 }
