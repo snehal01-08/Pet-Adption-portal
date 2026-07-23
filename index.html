@@ -1,0 +1,656 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PawMatch | Find Your Perfect Pet Companion</title>
+    <meta name="description" content="Discover, connect, and adopt loving pets from shelters near you. Simple adoption process, pet matching quiz, and pet care resources.">
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+    <!-- Header & Navigation -->
+    <header class="navbar-header" id="header">
+        <div class="container nav-container">
+            <a href="#" class="brand-logo">
+                <div class="logo-icon"><i class="fa-solid fa-paw"></i></div>
+                <span class="logo-text">PawMatch<span class="logo-dot">.</span></span>
+            </a>
+
+            <nav class="nav-links" id="navLinks">
+                <a href="#explore" class="nav-link active"><i class="fa-solid fa-compass"></i> Explore Pets</a>
+                <a href="#quiz-banner" class="nav-link" id="quizNavLink"><i class="fa-solid fa-wand-magic-sparkles"></i> Pet Quiz</a>
+                <a href="#success-stories" class="nav-link"><i class="fa-solid fa-heart"></i> Happy Tails</a>
+                <a href="#volunteer" class="nav-link"><i class="fa-solid fa-hands-holding-child"></i> Get Involved</a>
+            </nav>
+
+            <div class="nav-actions">
+                <button class="theme-toggle-btn" id="themeToggleBtn" title="Toggle Theme" aria-label="Toggle Theme">
+                    <i class="fa-solid fa-moon" id="themeIcon"></i>
+                </button>
+
+                <button class="favorites-btn" id="openFavsBtn" title="View Saved Pets" aria-label="View Saved Pets">
+                    <i class="fa-solid fa-heart"></i>
+                    <span class="fav-badge" id="favBadge">0</span>
+                </button>
+
+                <button class="btn btn-primary nav-cta" id="heroQuizBtn">
+                    <i class="fa-solid fa-wand-magic-sparkles"></i> Match Quiz
+                </button>
+
+                <button class="mobile-menu-toggle" id="mobileMenuToggle" aria-label="Toggle Menu">
+                    <i class="fa-solid fa-bars"></i>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero-section">
+        <div class="hero-bg-shapes">
+            <div class="shape shape-1"></div>
+            <div class="shape shape-2"></div>
+        </div>
+        <div class="container hero-container">
+            <div class="hero-content">
+                <span class="hero-badge"><i class="fa-solid fa-shield-heart"></i> Verified Animal Shelters</span>
+                <h1 class="hero-title">Find Your New Best Friend &amp; <span class="gradient-text">Forever Companion</span></h1>
+                <p class="hero-subtitle">Every pet deserves a loving home. Browse rescued dogs, cats, rabbits, and birds ready to bring unconditional joy to your life.</p>
+                
+                <!-- Hero Quick Search Bar -->
+                <div class="hero-search-wrapper">
+                    <div class="hero-search-input">
+                        <i class="fa-solid fa-magnifying-glass"></i>
+                        <input type="text" id="heroSearchInput" placeholder="Search breed, name, or trait (e.g. Golden Retriever, playful)...">
+                    </div>
+                    <button class="btn btn-primary hero-search-btn" id="heroSearchBtn">
+                        Search Pets
+                    </button>
+                </div>
+
+                <!-- Species Pill Selectors -->
+                <div class="species-pills" id="speciesPills">
+                    <button class="species-pill active" data-species="all"><i class="fa-solid fa-border-all"></i> All Pets</button>
+                    <button class="species-pill" data-species="Dog"><i class="fa-solid fa-dog"></i> Dogs</button>
+                    <button class="species-pill" data-species="Cat"><i class="fa-solid fa-cat"></i> Cats</button>
+                    <button class="species-pill" data-species="Rabbit"><i class="fa-solid fa-carrot"></i> Rabbits</button>
+                    <button class="species-pill" data-species="Bird"><i class="fa-solid fa-crow"></i> Birds</button>
+                </div>
+            </div>
+
+            <!-- Hero Stats & Feature Card -->
+            <div class="hero-stats-card">
+                <div class="stat-box">
+                    <div class="stat-icon"><i class="fa-solid fa-house-chimney-user"></i></div>
+                    <div class="stat-info">
+                        <span class="stat-number" id="statAdoptions">150+</span>
+                        <span class="stat-label">Happy Adoptions</span>
+                    </div>
+                </div>
+                <div class="stat-box">
+                    <div class="stat-icon"><i class="fa-solid fa-paw"></i></div>
+                    <div class="stat-info">
+                        <span class="stat-number" id="statWaiting">45+</span>
+                        <span class="stat-label">Pets Waiting</span>
+                    </div>
+                </div>
+                <div class="stat-box">
+                    <div class="stat-icon"><i class="fa-solid fa-hospital"></i></div>
+                    <div class="stat-info">
+                        <span class="stat-number">100%</span>
+                        <span class="stat-label">Health Checked</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Quiz Banner Section -->
+    <section class="container quiz-banner-section" id="quiz-banner">
+        <div class="quiz-banner-card">
+            <div class="quiz-banner-content">
+                <span class="tag-pill tag-purple"><i class="fa-solid fa-bolt"></i> Quick 60-Sec Quiz</span>
+                <h2>Not Sure Which Pet Fits Your Lifestyle?</h2>
+                <p>Answer 3 quick questions about your home, activity level, and care preferences. Our smart pet matcher will recommend your ideal companions!</p>
+                <button class="btn btn-secondary btn-large" id="startMatchQuizBtn">
+                    <i class="fa-solid fa-wand-magic-sparkles"></i> Take Pet Match Quiz
+                </button>
+            </div>
+            <div class="quiz-banner-illustration">
+                <div class="icon-circle"><i class="fa-solid fa-heart-circle-check"></i></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Main Pet Catalog / Explorer Section -->
+    <section class="explore-section container" id="explore">
+        <div class="section-header">
+            <div>
+                <span class="section-subtitle">Adopt, Don't Shop</span>
+                <h2 class="section-title">Meet Our Rescues Looking for Homes</h2>
+            </div>
+            <div class="view-controls">
+                <button class="compare-trigger-btn" id="openCompareBtn" disabled>
+                    <i class="fa-solid fa-code-compare"></i> Compare (<span id="compareCount">0</span>/2)
+                </button>
+            </div>
+        </div>
+
+        <!-- Comprehensive Filters Bar -->
+        <div class="filter-card">
+            <div class="filter-row main-filters">
+                <!-- Search Input -->
+                <div class="filter-group filter-search">
+                    <label for="catalogSearchInput"><i class="fa-solid fa-search"></i> Search</label>
+                    <input type="text" id="catalogSearchInput" placeholder="Name, breed, temperament...">
+                </div>
+
+                <!-- Species Select -->
+                <div class="filter-group">
+                    <label for="speciesFilter"><i class="fa-solid fa-paw"></i> Species</label>
+                    <select id="speciesFilter">
+                        <option value="all">All Species</option>
+                        <option value="Dog">Dog</option>
+                        <option value="Cat">Cat</option>
+                        <option value="Rabbit">Rabbit</option>
+                        <option value="Bird">Bird</option>
+                    </select>
+                </div>
+
+                <!-- Age Select -->
+                <div class="filter-group">
+                    <label for="ageFilter"><i class="fa-solid fa-calendar"></i> Age Group</label>
+                    <select id="ageFilter">
+                        <option value="all">Any Age</option>
+                        <option value="Puppy/Kitten">Baby (Under 1 yr)</option>
+                        <option value="Young">Young (1-3 yrs)</option>
+                        <option value="Adult">Adult (3-7 yrs)</option>
+                        <option value="Senior">Senior (7+ yrs)</option>
+                    </select>
+                </div>
+
+                <!-- Size Select -->
+                <div class="filter-group">
+                    <label for="sizeFilter"><i class="fa-solid fa-ruler-combined"></i> Size</label>
+                    <select id="sizeFilter">
+                        <option value="all">Any Size</option>
+                        <option value="Small">Small</option>
+                        <option value="Medium">Medium</option>
+                        <option value="Large">Large</option>
+                    </select>
+                </div>
+
+                <!-- Gender Select -->
+                <div class="filter-group">
+                    <label for="genderFilter"><i class="fa-solid fa-venus-mars"></i> Gender</label>
+                    <select id="genderFilter">
+                        <option value="all">Any Gender</option>
+                        <option value="Male">Male</option>
+                        <option value="Female">Female</option>
+                    </select>
+                </div>
+
+                <!-- Sort By -->
+                <div class="filter-group">
+                    <label for="sortSelect"><i class="fa-solid fa-arrow-down-short-wide"></i> Sort By</label>
+                    <select id="sortSelect">
+                        <option value="featured">Featured First</option>
+                        <option value="age-asc">Age: Youngest First</option>
+                        <option value="age-desc">Age: Oldest First</option>
+                        <option value="name-asc">Name: A to Z</option>
+                    </select>
+                </div>
+            </div>
+
+            <!-- Checkbox Trait Quick Filters -->
+            <div class="filter-row trait-filters">
+                <span class="trait-filter-title"><i class="fa-solid fa-filter"></i> Requirements &amp; Traits:</span>
+                <label class="checkbox-tag">
+                    <input type="checkbox" id="traitKids">
+                    <span class="tag-box"><i class="fa-solid fa-child"></i> Good with Kids</span>
+                </label>
+                <label class="checkbox-tag">
+                    <input type="checkbox" id="traitPets">
+                    <span class="tag-box"><i class="fa-solid fa-dog"></i> Good with Pets</span>
+                </label>
+                <label class="checkbox-tag">
+                    <input type="checkbox" id="traitVaccinated">
+                    <span class="tag-box"><i class="fa-solid fa-syringe"></i> Vaccinated</span>
+                </label>
+                <label class="checkbox-tag">
+                    <input type="checkbox" id="traitSpecialNeeds">
+                    <span class="tag-box"><i class="fa-solid fa-hand-holding-medical"></i> Special Care</span>
+                </label>
+
+                <button class="reset-filters-btn" id="resetFiltersBtn">
+                    <i class="fa-solid fa-rotate-left"></i> Reset Filters
+                </button>
+            </div>
+        </div>
+
+        <!-- Filter Summary Bar -->
+        <div class="results-summary-bar">
+            <p class="results-count">Showing <strong id="visiblePetCount">0</strong> lovable pets</p>
+            <div class="active-tags-container" id="activeTagsContainer"></div>
+        </div>
+
+        <!-- Pet Grid Container -->
+        <div class="pet-grid" id="petGrid">
+            <!-- Dynamic Pet Cards Injected Here -->
+        </div>
+
+        <!-- Empty State -->
+        <div class="empty-state hidden" id="emptyState">
+            <div class="empty-icon"><i class="fa-solid fa-shield-cat"></i></div>
+            <h3>No pets match your criteria</h3>
+            <p>Try resetting some filters or broadening your search terms to see more loving rescues!</p>
+            <button class="btn btn-secondary" id="emptyResetBtn"><i class="fa-solid fa-rotate"></i> Reset All Filters</button>
+        </div>
+    </section>
+
+    <!-- Success Stories Section -->
+    <section class="success-section" id="success-stories">
+        <div class="container">
+            <div class="section-header text-center">
+                <span class="section-subtitle">Heartwarming Moments</span>
+                <h2 class="section-title">Happy Tail Adoption Stories</h2>
+                <p class="section-description">See how adopted pets transformed their new families' lives forever.</p>
+            </div>
+
+            <div class="stories-grid">
+                <div class="story-card">
+                    <div class="story-image-wrap">
+                        <img src="assets/images/dog1.png" alt="Buddy with his new family" loading="lazy">
+                        <span class="story-badge"><i class="fa-solid fa-heart"></i> Adopted 3 Mos Ago</span>
+                    </div>
+                    <div class="story-body">
+                        <h3>Buddy &amp; The Miller Family</h3>
+                        <p class="story-quote">"Buddy adapted to our home instantly! He loves evening walks and is so gentle with our twin toddlers. We can't imagine life without him!"</p>
+                        <div class="story-meta">
+                            <span class="story-author">— Sarah &amp; Mark Miller</span>
+                            <span class="story-pet-info">Adopted Golden Retriever</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="story-card">
+                    <div class="story-image-wrap">
+                        <img src="assets/images/cat1.png" alt="Milo relaxing at home" loading="lazy">
+                        <span class="story-badge"><i class="fa-solid fa-heart"></i> Adopted 6 Mos Ago</span>
+                    </div>
+                    <div class="story-body">
+                        <h3>Milo's Apartment Haven</h3>
+                        <p class="story-quote">"As someone working remotely, Milo has brought endless warmth and funny antics to my apartment. The adoption process was so seamless!"</p>
+                        <div class="story-meta">
+                            <span class="story-author">— David Chen</span>
+                            <span class="story-pet-info">Adopted Orange Tabby</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="story-card">
+                    <div class="story-image-wrap">
+                        <img src="assets/images/rabbit1.png" alt="Clover the bunny" loading="lazy">
+                        <span class="story-badge"><i class="fa-solid fa-heart"></i> Adopted 1 Year Ago</span>
+                    </div>
+                    <div class="story-body">
+                        <h3>Clover's Second Chance</h3>
+                        <p class="story-quote">"Clover was rescued from a crowded shelter. Now she spends her days doing happy bunny hops in our sunroom. Adoption saves lives!"</p>
+                        <div class="story-meta">
+                            <span class="story-author">— Elena &amp; James</span>
+                            <span class="story-pet-info">Adopted Lop Bunny</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Volunteer & Support Banner -->
+    <section class="volunteer-section" id="volunteer">
+        <div class="container volunteer-container">
+            <div class="volunteer-card">
+                <div class="volunteer-content">
+                    <h2>Can't Adopt Right Now? You Can Still Help!</h2>
+                    <p>Shelters rely on compassionate volunteers, foster parents, and supporters to give every rescue animal proper healthcare and comfort while waiting for forever homes.</p>
+                    <div class="volunteer-buttons">
+                        <button class="btn btn-primary" id="volunteerModalBtn"><i class="fa-solid fa-hand-holding-heart"></i> Become a Foster / Volunteer</button>
+                        <button class="btn btn-outline" id="donateModalBtn"><i class="fa-solid fa-circle-dollar-to-slot"></i> Donate Pet Care Kits</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="site-footer">
+        <div class="container footer-grid">
+            <div class="footer-col brand-col">
+                <a href="#" class="brand-logo">
+                    <div class="logo-icon"><i class="fa-solid fa-paw"></i></div>
+                    <span class="logo-text">PawMatch<span class="logo-dot">.</span></span>
+                </a>
+                <p>Connecting loving homes with rescued pets. Dedicated to zero-euthanasia communities and transparent, compassionate adoptions.</p>
+                <div class="social-links">
+                    <a href="#" aria-label="Facebook"><i class="fa-brands fa-facebook-f"></i></a>
+                    <a href="#" aria-label="Instagram"><i class="fa-brands fa-instagram"></i></a>
+                    <a href="#" aria-label="Twitter"><i class="fa-brands fa-twitter"></i></a>
+                    <a href="#" aria-label="YouTube"><i class="fa-brands fa-youtube"></i></a>
+                </div>
+            </div>
+
+            <div class="footer-col">
+                <h4>Quick Links</h4>
+                <ul>
+                    <li><a href="#explore">Explore All Pets</a></li>
+                    <li><a href="#quiz-banner">Pet Compatibility Quiz</a></li>
+                    <li><a href="#success-stories">Adoption Success Stories</a></li>
+                    <li><a href="#volunteer">Foster &amp; Volunteer</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-col">
+                <h4>Adoption Information</h4>
+                <ul>
+                    <li><a href="#" id="processInfoLink">Adoption Requirements</a></li>
+                    <li><a href="#" id="feeInfoLink">Adoption Fees &amp; Care Kits</a></li>
+                    <li><a href="#" id="vetInfoLink">Medical Verification</a></li>
+                    <li><a href="#" id="faqLink">Frequently Asked Questions</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-col">
+                <h4>Contact Shelter Hub</h4>
+                <ul class="contact-list">
+                    <li><i class="fa-solid fa-location-dot"></i> 104 Adoption Way, Compassion City, CA</li>
+                    <li><i class="fa-solid fa-phone"></i> (555) 729-6282 (PAWS-HUB)</li>
+                    <li><i class="fa-solid fa-envelope"></i> adopt@pawmatchportal.org</li>
+                    <li><i class="fa-solid fa-clock"></i> Mon - Sun: 9:00 AM - 6:00 PM</li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <div class="container footer-bottom-flex">
+                <p>&copy; 2026 PawMatch Adoption Portal. All rights reserved. Created with love for animals.</p>
+                <div class="footer-policies">
+                    <a href="#">Privacy Policy</a>
+                    <a href="#">Terms of Service</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+
+    <!-- ==================== MODALS & DRAWERS ==================== -->
+
+    <!-- PET DETAILS MODAL -->
+    <div class="modal-overlay hidden" id="petDetailModal">
+        <div class="modal-card detail-modal-card">
+            <button class="modal-close-btn" id="closeDetailModal" aria-label="Close modal">&times;</button>
+            <div class="detail-grid">
+                <!-- Pet Image & Gallery -->
+                <div class="detail-image-section">
+                    <img id="detailPetImg" src="" alt="Pet Image">
+                    <div class="detail-image-badge" id="detailSpeciesBadge"><i class="fa-solid fa-dog"></i> Dog</div>
+                </div>
+
+                <!-- Pet Information Details -->
+                <div class="detail-info-section">
+                    <div class="detail-header">
+                        <div>
+                            <h2 id="detailPetName">Pet Name</h2>
+                            <p class="detail-breed" id="detailPetBreed">Breed Name</p>
+                        </div>
+                        <button class="fav-icon-btn" id="detailFavBtn" title="Save to Favorites">
+                            <i class="fa-regular fa-heart"></i>
+                        </button>
+                    </div>
+
+                    <div class="detail-quick-stats">
+                        <div class="stat-pill"><i class="fa-solid fa-calendar-days"></i> <span id="detailAge">2 Yrs</span></div>
+                        <div class="stat-pill"><i class="fa-solid fa-venus-mars"></i> <span id="detailGender">Male</span></div>
+                        <div class="stat-pill"><i class="fa-solid fa-ruler-vertical"></i> <span id="detailSize">Medium</span></div>
+                        <div class="stat-pill"><i class="fa-solid fa-location-dot"></i> <span id="detailShelter">Main Shelter</span></div>
+                    </div>
+
+                    <!-- Health Check Badges -->
+                    <div class="health-badges-container">
+                        <span class="health-badge" id="detailVaccinated"><i class="fa-solid fa-shield-virus"></i> Vaccinated</span>
+                        <span class="health-badge" id="detailNeutered"><i class="fa-solid fa-circle-check"></i> Spayed/Neutered</span>
+                        <span class="health-badge" id="detailChipped"><i class="fa-solid fa-microchip"></i> Microchipped</span>
+                        <span class="health-badge" id="detailHouseTrained"><i class="fa-solid fa-house-chimney"></i> House-Trained</span>
+                    </div>
+
+                    <!-- Temperament Tags -->
+                    <div class="temperament-section">
+                        <h4>Personality &amp; Temperament</h4>
+                        <div class="trait-tags" id="detailTemperamentTags"></div>
+                    </div>
+
+                    <!-- Story & Bio -->
+                    <div class="bio-section">
+                        <h4>My Rescue Story</h4>
+                        <p id="detailBio">Pet story content goes here...</p>
+                    </div>
+
+                    <!-- Action Buttons -->
+                    <div class="detail-actions">
+                        <button class="btn btn-primary btn-large adopt-now-btn" id="detailAdoptBtn">
+                            <i class="fa-solid fa-heart-pulse"></i> Start Adoption Application
+                        </button>
+                        <button class="btn btn-outline" id="detailCompareBtn">
+                            <i class="fa-solid fa-code-compare"></i> Add to Compare
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- ADOPTION APPLICATION WIZARD MODAL -->
+    <div class="modal-overlay hidden" id="adoptionWizardModal">
+        <div class="modal-card wizard-modal-card">
+            <button class="modal-close-btn" id="closeWizardModal" aria-label="Close modal">&times;</button>
+            
+            <div class="wizard-header">
+                <h3>Adoption Application for <span class="gradient-text" id="wizardPetName">Pet</span></h3>
+                <!-- Wizard Progress Indicator -->
+                <div class="wizard-steps">
+                    <div class="step-item active" id="stepIndicator1">
+                        <span class="step-num">1</span>
+                        <span class="step-label">Your Info</span>
+                    </div>
+                    <div class="step-line"></div>
+                    <div class="step-item" id="stepIndicator2">
+                        <span class="step-num">2</span>
+                        <span class="step-label">Home &amp; Care</span>
+                    </div>
+                    <div class="step-line"></div>
+                    <div class="step-item" id="stepIndicator3">
+                        <span class="step-num">3</span>
+                        <span class="step-label">Review &amp; Submit</span>
+                    </div>
+                </div>
+            </div>
+
+            <form id="adoptionForm" class="wizard-form">
+                <!-- STEP 1: Applicant Info -->
+                <div class="wizard-step-page active" id="wizardStep1">
+                    <h4>Step 1: Contact Information &amp; Housing</h4>
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label for="applicantName">Full Name *</label>
+                            <input type="text" id="applicantName" required placeholder="e.g. Emily Watson">
+                        </div>
+                        <div class="form-group">
+                            <label for="applicantEmail">Email Address *</label>
+                            <input type="email" id="applicantEmail" required placeholder="e.g. emily@example.com">
+                        </div>
+                        <div class="form-group">
+                            <label for="applicantPhone">Phone Number *</label>
+                            <input type="tel" id="applicantPhone" required placeholder="e.g. (555) 019-2834">
+                        </div>
+                        <div class="form-group">
+                            <label for="housingType">Type of Residence *</label>
+                            <select id="housingType" required>
+                                <option value="Single Family Home">Single Family Home</option>
+                                <option value="Apartment / Condo">Apartment / Condo</option>
+                                <option value="Townhouse">Townhouse</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="ownershipStatus">Housing Status *</label>
+                            <select id="ownershipStatus" required>
+                                <option value="Own Home">Own Home</option>
+                                <option value="Rent (Pet Approval Confirmed)">Rent (Landlord Approved)</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="hasFencedYard">Fenced Yard Status *</label>
+                            <select id="hasFencedYard" required>
+                                <option value="Yes - Fully Fenced Yard">Yes, fully enclosed yard</option>
+                                <option value="No Yard / Community Park">No yard (Will walk regularly)</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- STEP 2: Pet Experience & Environment -->
+                <div class="wizard-step-page hidden" id="wizardStep2">
+                    <h4>Step 2: Pet Care Experience &amp; Household</h4>
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label for="householdMembers">People living in household *</label>
+                            <input type="number" id="householdMembers" min="1" max="10" value="2" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="hasOtherPets">Existing Household Pets *</label>
+                            <select id="hasOtherPets" required>
+                                <option value="No other pets">No other pets</option>
+                                <option value="1 Dog">1 Dog</option>
+                                <option value="1 Cat">1 Cat</option>
+                                <option value="Multiple Pets">Multiple Pets</option>
+                            </select>
+                        </div>
+                        <div class="form-group full-width">
+                            <label for="petExperience">Previous Pet Experience *</label>
+                            <textarea id="petExperience" rows="3" required placeholder="Tell us briefly about any past dogs, cats, or pets you have owned or cared for..."></textarea>
+                        </div>
+                        <div class="form-group full-width">
+                            <label for="dailySchedule">Hours Pet will be Alone Daily *</label>
+                            <select id="dailySchedule" required>
+                                <option value="0-2 hours (Work from home)">0-2 hours (Work from home / retired)</option>
+                                <option value="3-5 hours">3-5 hours</option>
+                                <option value="6-8 hours">6-8 hours</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- STEP 3: Review & Terms -->
+                <div class="wizard-step-page hidden" id="wizardStep3">
+                    <h4>Step 3: Confirm Application Details</h4>
+                    <div class="application-summary-box" id="appSummaryBox">
+                        <!-- Dynamically filled on Step 3 -->
+                    </div>
+
+                    <div class="terms-checkbox">
+                        <label>
+                            <input type="checkbox" id="termsAgree" required>
+                            <span>I certify that all information provided is accurate and I agree to a standard shelter interview &amp; home match check.</span>
+                        </label>
+                    </div>
+                </div>
+
+                <!-- Navigation Controls -->
+                <div class="wizard-footer">
+                    <button type="button" class="btn btn-outline hidden" id="wizardPrevBtn"><i class="fa-solid fa-arrow-left"></i> Previous</button>
+                    <button type="button" class="btn btn-primary" id="wizardNextBtn">Next Step <i class="fa-solid fa-arrow-right"></i></button>
+                    <button type="submit" class="btn btn-success hidden" id="wizardSubmitBtn"><i class="fa-solid fa-paper-plane"></i> Submit Application</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+
+    <!-- PET MATCH QUIZ MODAL -->
+    <div class="modal-overlay hidden" id="quizModal">
+        <div class="modal-card quiz-modal-card">
+            <button class="modal-close-btn" id="closeQuizModal" aria-label="Close modal">&times;</button>
+
+            <div class="quiz-header text-center">
+                <span class="quiz-step-tag">Question <span id="quizCurrentQ">1</span> of 3</span>
+                <h3 id="quizQuestionTitle">What type of living space do you have?</h3>
+            </div>
+
+            <div class="quiz-options-grid" id="quizOptionsContainer">
+                <!-- Dynamic Quiz Options -->
+            </div>
+
+            <!-- Results Preview in Quiz -->
+            <div class="quiz-results-container hidden" id="quizResultsContainer">
+                <div class="quiz-success-header">
+                    <i class="fa-solid fa-wand-magic-sparkles"></i>
+                    <h3>Here Are Your Best Matches!</h3>
+                    <p>Based on your answers, these pets match your lifestyle perfectly:</p>
+                </div>
+                <div class="matched-pets-grid" id="matchedPetsGrid"></div>
+                <button class="btn btn-primary" id="closeQuizResultsBtn">Browse Matches in Catalog</button>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- FAVORITES DRAWER -->
+    <div class="drawer-overlay hidden" id="favsDrawerOverlay">
+        <div class="drawer-panel" id="favsDrawer">
+            <div class="drawer-header">
+                <h3><i class="fa-solid fa-heart"></i> Saved Favorites (<span id="favDrawerCount">0</span>)</h3>
+                <button class="drawer-close-btn" id="closeFavsDrawer">&times;</button>
+            </div>
+            <div class="drawer-body" id="favsList">
+                <!-- Saved items rendered here -->
+            </div>
+            <div class="drawer-footer" id="favsDrawerFooter">
+                <button class="btn btn-primary full-width" id="clearFavsBtn"><i class="fa-solid fa-trash"></i> Clear All Saved</button>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- PET COMPARISON MODAL -->
+    <div class="modal-overlay hidden" id="compareModal">
+        <div class="modal-card compare-modal-card">
+            <button class="modal-close-btn" id="closeCompareModal">&times;</button>
+            <h3><i class="fa-solid fa-code-compare"></i> Side-by-Side Pet Comparison</h3>
+            <p class="subtitle">Comparing traits to help you choose your ideal companion.</p>
+            
+            <div class="compare-table-container" id="compareTableContainer">
+                <!-- Table injected dynamically -->
+            </div>
+        </div>
+    </div>
+
+
+    <!-- GENERAL INFO MODAL (For FAQs / Volunteer / Donate) -->
+    <div class="modal-overlay hidden" id="infoModal">
+        <div class="modal-card info-modal-card">
+            <button class="modal-close-btn" id="closeInfoModal">&times;</button>
+            <div id="infoModalContent"></div>
+        </div>
+    </div>
+
+
+    <!-- TOAST NOTIFICATION CONTAINER -->
+    <div class="toast-container" id="toastContainer"></div>
+
+    <script src="app.js"></script>
+</body>
+</html>
